@@ -7,11 +7,11 @@ dependencies:
     - bottleneck
     - cartopy
     - climpred
-    - cf_units
+    - cf-units
     - cftime
     - cmocean
     - dask==2.14
-    - dask-jobqueue
+    - dask-jobqueue<=0.7.1
     - distributed==2.14
     - dask-labextension
     - eofs
