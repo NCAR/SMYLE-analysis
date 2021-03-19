@@ -3,4 +3,7 @@
 ```bash
 conda env update -f envs/environment.yml
 ```
-Always use a branch!
+After cloning this repo to your local directory, create your own branch to work in:
+```
+git checkout -b <nameofyourbranch>
+```
