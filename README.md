@@ -1,4 +1,6 @@
 # SMYLE-analysis
+A shared repository for jupyter notebooks examining SMYLE output.
+
 ## Creating environment
 ```bash
 conda env update -f envs/environment.yml
