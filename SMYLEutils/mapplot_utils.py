@@ -47,6 +47,9 @@ def contourmap_bothoceans_robinson_pos(fig, dat, lon, lat, ci, cmin, cmax, title
     dat, lon = add_cyclic_point(dat, coord=lon)
     ax.contourf(lon, lat, dat, levels=clevs, cmap = mymap, extend="max", transform=ccrs.PlateCarree())
 
+    ax.set_global()
+
+
     return ax
 
 
