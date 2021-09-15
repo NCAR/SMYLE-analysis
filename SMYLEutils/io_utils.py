@@ -81,6 +81,6 @@ def get_monthly_data(filetemplate,filetype,ens,nlead,field,firstyear,lastyear,st
     ds0["M"] = np.arange(ds0.sizes["M"]) + 1
     
     # reorder into desired format (Y,L,M,...)
-    ds0 = ds0.transpose("Y","M",...)
+    ds0 = ds0.transpose("Y","L","M",...)
     return ds0
 
