@@ -106,7 +106,7 @@ def mon_to_seas(da):
     Author: S. Yeager
     """
     month_length = da.time.dt.days_in_month
-    result = ((da * month_length).resample(time='QS-DEC',loffset='45D').sum() /
+    result = ((da * month_length).resample(time='QS-DEC',loffset='45D').sum(skipna=True,min_count=3) /
           month_length.resample(time='QS-DEC',loffset='45D').sum())
     return result
 
