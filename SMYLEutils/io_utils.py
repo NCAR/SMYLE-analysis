@@ -74,7 +74,7 @@ def get_monthly_data(filetemplate,filetype,ens,nlead,field,firstyear,lastyear,st
     data_vars=[field],
     coords="minimal",
     compat="override",
-    preprocess=partial(preproc,nlead=nlead,field=field))
+    preprocess=partial(preproc,nlead=nlead,field=field),chunks=chunks)
     
     # assign final attributes
     ds0["Y"] = yrs
