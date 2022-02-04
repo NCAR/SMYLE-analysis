@@ -230,4 +230,4 @@ def map_pvalsig_global_subplot(axis, pvals, lon, lat, siglvl,
     tmplat = np.where(pvals>siglvl,lat2d,np.nan)
     axis.scatter(tmplon,tmplat,facecolor=facecolor, edgecolor=edgecolor,s=s,marker=marker)
 
-    return 
+
