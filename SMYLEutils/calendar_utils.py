@@ -128,3 +128,21 @@ def mon_to_seas_dask(ds):
     ds_seas = ds_seas.sel(L=Lkeep)
     return ds_seas
 
+def mon_to_seas_dask2(ds):
+    """ Converts a Dask DataSet containing monthly data to one containing 
+    seasonal-average data. Dask Dataset is assumed to be in initialized-prediction
+    format, with dimensions (Y,L,M,...). Time should be a variable, not a coordinate.
+    """
+    # drop time(Y,L) variable for now
+    ds_seas = ds.drop('time')
+    # do a simple 3-month rolling mean along L-dimension
+    ds_seas = ds_seas.rolling(L=3,min_periods=3, center=True).mean()
+    # add time back into dataset
+    ds_seas['time'] = ds['time']
+    # subselect seasons:  JFM, AMJ, JAS, OND
+    mon = ds_seas.isel(Y=0).time.dt.month.values
+    L = ds_seas.L
+    Lkeep = L.where((mon == 2) | (mon == 5) | (mon == 8) | (mon == 11)).dropna('L')
+    ds_seas = ds_seas.sel(L=Lkeep)
+    return ds_seas
+
