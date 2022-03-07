@@ -211,7 +211,7 @@ def map_pcolor_global_subplot(fig, dat, lon, lat, ci, cmin, cmax, titlestr,
     else:
         raise ValueError('ERROR: unknown grid')
         
-    ax.set_global()
+#    ax.set_global()
     return ax,cntr
 
 def map_pvalsig_global_subplot(axis, pvals, lon, lat, siglvl,
