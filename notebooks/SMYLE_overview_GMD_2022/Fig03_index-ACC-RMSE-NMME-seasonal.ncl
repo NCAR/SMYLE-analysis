@@ -1,4 +1,4 @@
-;---Nov-Initialized, observed and predicted Nino-3.4 correlations and RMSE
+;---ACC and RMSE for any index
 
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
@@ -6,10 +6,9 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/shea_util.ncl"
 
 begin
-  diro = "/glade/work/xianwu/data/obs/hadisst/"
+  diro = "/glade/work/xianwu/data/obs/"
   dirf = "/glade/work/xianwu/analysis_output/smyle_output/postprocess/"
   dirfo = "/glade/work/xianwu/analysis_output/smyle_output/output/"
-  dirom = "/glade/work/xianwu/data/obs/mergedata/"
 
   figure = "pdf"
   figure = "ps"
@@ -19,7 +18,7 @@ begin
 
   
   ystro = 1970
-  yendo = 2020
+  yendo = 2021
   
   fmon = 24
   
@@ -28,7 +27,7 @@ begin
   ny = yend-ystr+1
   
 ;  detrend = "quadratic"
-  detrend = "nondetrend"
+;  detrend = "nondetrend"
   detrend = "linear"
   
   define = "12yr"  
@@ -46,14 +45,13 @@ begin
   
 ;---Observation
   if(var .eq. "TS")then
-    f = addfile(dirom + "merge-ts-sst-obsdata-BEST-HadISST-1900-2021.nc", "r")
     if(indvar .eq. "Nino-34")then
-      t = f->ts(time|(ystro-1900)*12:(yendo-1900+1)*12-1,{lat|latmin:latmax},{lon|lonmin:lonmax}) 
+      f = addfile( diro + "hadisst/HadISST_sst.nc", "r")
+      t = f->sst(time|(ystro-1870)*12:(yendo-1870+1)*12-1,{latitude|-5.:5.},{longitude|-170.:-120.})
       n = wgt_areaave_Wrap( t, 1., 1., 0)
       delete( t)
     end if
   end if
-
   printVarSummary(n)
   n = rmAnnCycle1D( n)
   
@@ -67,8 +65,7 @@ begin
     
   printVarSummary(n)
   no = new((/4,ny,fmon/),"float")
-  do i=0,ny-1-1
-    print(i)
+  do i=0,ny-1
     no(0,i,:) = n(time|i*12+1:i*12+1+fmon-1)   ;1970 Feb - 
     no(1,i,:) = n(time|i*12+4:i*12+4+fmon-1)   ;1970 May - 
     no(2,i,:) = n(time|i*12+7:i*12+7+fmon-1)   ;1970 Aug - 
@@ -463,7 +460,5 @@ begin
 
   draw( wks)
   frame( wks)
-  
-  print (r(7:7,0,:,:))
 
 end 
