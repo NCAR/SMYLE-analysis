@@ -7,9 +7,8 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/shea_util.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/popRemap.ncl" 
 
 begin
-  diro = "/glade/work/xianwu/data/obs/hadisst/"
+  diro = "/glade/work/xianwu/data/obs/"
   dirf = "/glade/work/xianwu/analysis_output/smyle_output/postprocess/"
-  dirom = "/glade/work/xianwu/data/obs/mergedata/"
  
   ystro = 1970
   yendo = 2021
@@ -39,14 +38,13 @@ begin
 
 ;---Observation
   if(var .eq. "TS")then
-    f = addfile(dirom + "merge-ts-sst-obsdata-BEST-HadISST-1900-2021.nc", "r")
     if(indvar .eq. "Nino-34")then
-      t = f->ts(time|(ystro-1900)*12:(yendo-1900+1)*12-1,{lat|latmin:latmax},{lon|lonmin:lonmax}) 
+      f = addfile( diro + "hadisst/HadISST_sst.nc", "r")
+      t = f->sst(time|(ystro-1870)*12:(yend-1870+1)*12-1,{latitude|-5.:5.},{longitude|-170.:-120.})
       n = wgt_areaave_Wrap( t, 1., 1., 0)
       delete( t)
     end if
   end if
-  
   n = rmAnnCycle1D( n)
   
   if(detrend .eq. "quadratic")then
