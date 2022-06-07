@@ -7,7 +7,7 @@ dependencies:
     - bottleneck
     - cartopy
     - climpred
-    - click==8.0
+    - click==8.0  # need to pin click since dask is pinned (https://github.com/dask/distributed/issues/6013)
     - cf-units
     - cftime
     - cmocean
