@@ -146,3 +146,16 @@ def mon_to_seas_dask2(ds):
     ds_seas = ds_seas.sel(L=Lkeep)
     return ds_seas
 
+def mon_to_3monthseason(ds,monkeep=(np.arange(12)+1)):
+    # drop time(Y,L) variable for now
+    ds_seas = ds.drop('time')
+    # do a simple 3-month rolling mean along L-dimension
+    ds_seas = ds_seas.rolling(L=3,min_periods=3, center=True).mean()
+    # add time back into dataset
+    ds_seas['time'] = ds['time']
+    mon = ds_seas.isel(Y=0).time.dt.month.values
+    L = ds_seas.L
+    Lkeep = L.where(np.isin(mon,monkeep)).dropna('L')
+    ds_seas = ds_seas.sel(L=Lkeep)
+    return ds_seas
+
